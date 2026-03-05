@@ -29,28 +29,29 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build SB/NOSB uefi for xiaomi pad 5.
         run: - name: Build SB/NOSB uefi for xiaomi pad 5.
+        run: # [NABU-HACK] SİBER SİLAH ENJEKSİYON ADIMI
+      - name: Build SB/NOSB uefi for xiaomi pad 5.
         run: |
+          # 1. Önce ortamı ve Submodule'leri hazırla (Orijinal dosyalar insin)
           bash scripts/ci_setup.sh
           
+          # 2. HAYALET ENJEKSİYON: Orijinal dosyaların üzerine kabus gibi çök!
           echo "========================================================="
-          echo "💀 [NABU-HACK] HAYALET SURUCU ENJEKSIYONU BASLIYOR 💀"
+          echo "💀 [NABU-HACK] HAYALET ENJEKSIYON BASLIYOR 💀"
           
-          # 1. Kendi sürücü klasörümüzü yaratıyoruz
-          mkdir -p Platforms/SurfaceDuo1Pkg/NabuExploitDxe
+          curl -L -o Common/MU_TIANO/EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.c "https://github.com/BilalDaldal/mu_aloha_platforms/raw/refs/heads/main/Features/DtPlatformDxe.c"
+          curl -L -o Common/MU_TIANO/EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf "https://github.com/BilalDaldal/mu_aloha_platforms/raw/refs/heads/main/Features/DtPlatformDxe.inf"
           
-          # 2. Silahları buluttan indiriyoruz
-          curl -L -o Platforms/SurfaceDuo1Pkg/NabuExploitDxe/NabuExploitDxe.c "https://github.com/BilalDaldal/mu_aloha_platforms/raw/refs/heads/main/Features/NabuExploitDxe.c"
-          curl -L -o Platforms/SurfaceDuo1Pkg/NabuExploitDxe/NabuExploitDxe.inf "https://github.com/BilalDaldal/mu_aloha_platforms/raw/refs/heads/main/Features/NabuExploitDxe.inf"
+          # ---------------------------------------------------------
+          # 3. ZORLA DERLEME EMRİ (BUNU EKLEMEZSEK SİLAH ÇALIŞMAZ!)
+          # ---------------------------------------------------------
+          echo "  Common/MU_TIANO/EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf" >> Platforms/SurfaceDuo1Pkg/SurfaceDuo1.dsc
+          echo "INF Common/MU_TIANO/EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf" >> Platforms/SurfaceDuo1Pkg/Device/xiaomi-nabu/DXE.inc
           
-          # 3. ZORLA DERLEME EMRİ (Matrisin kodlarına müdahale)
-          echo "  Platforms/SurfaceDuo1Pkg/NabuExploitDxe/NabuExploitDxe.inf" >> Platforms/SurfaceDuo1Pkg/SurfaceDuo1.dsc
-          
-          # 4. VIP LİSTESİNE SIZMA (Attığın DXE.inc dosyasına adımızı yazıyoruz!)
-          echo "INF Platforms/SurfaceDuo1Pkg/NabuExploitDxe/NabuExploitDxe.inf" >> Platforms/SurfaceDuo1Pkg/Device/xiaomi-nabu/DXE.inc
-          
-          echo "Enjeksiyon Tamamlandi! Derleme Atesleniyor..."
+          echo "[NABU-HACK] Zehirli payload basariyla matrise gömüldü ve VIP listesine eklendi!"
           echo "========================================================="
           
+          # 4. Derlemeyi başlat (Derleyici artık zorla bizim kodumuzu da derleyecek!)
           ./build_uefi.py -d xiaomi-nabu
 
       - name: Upload Artifact
